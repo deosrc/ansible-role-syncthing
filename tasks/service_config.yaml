@@ -50,3 +50,27 @@
     value: "{{ item.syncthing_config.web_ui.auth.password_hash | default('') }}"
   notify:
     - Restart syncthing services
+
+- name: Determine Device ID
+  block:
+    # Flush handlers to ensure any port changes have taken effect
+    - name: Flush handlers
+      ansible.builtin.meta: flush_handlers
+    - name: Wait for syncthing services to start
+      loop: "{{ syncthing_instances }}"
+      loop_control:
+        label: "{{ item.username }}"
+      ansible.builtin.wait_for:
+        port: "{{ item.syncthing_config.web_ui.port | default(8384) }}"
+        timeout: 30
+    - name: Make request to Syncthing Web UI to retrieve Device ID
+      loop: "{{ syncthing_instances | map(attribute='username') }}" # Have to loop by username for items2dict in set_fact to work
+      loop_control:
+        label: "{{ item }}"
+      ansible.builtin.uri:
+        url: "http://localhost:{{ (syncthing_instances | selectattr('username', 'eq', item))[0].syncthing_config.web_ui.port | default(8384) }}/"
+      check_mode: false
+      register: syncthing_webui_request
+    - name: Build Device ID dictionary
+      set_fact:
+        syncthing_instance_device_ids: "{{ syncthing_webui_request.results | items2dict(key_name='item', value_name='x_syncthing_id') }}"
