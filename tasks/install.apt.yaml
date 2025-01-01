@@ -1,0 +1,21 @@
+---
+# https://apt.syncthing.net/
+- name: Setup syncthing apt repository
+  become: true
+  ansible.builtin.deb822_repository:
+    name: syncthing
+    types: deb
+    uris: https://apt.syncthing.net/
+    suites: syncthing
+    components: "{{ syncthing_channel }}"
+    signed_by: https://syncthing.net/release-key.gpg
+  notify:
+    - Update apt cache
+
+- ansible.builtin.meta: flush_handlers
+
+- name: Install syncthing
+  become: true
+  ansible.builtin.apt:
+    name: "syncthing{% if syncthing_version not in ['', 'latest'] %}={{ syncthing_version }}{% endif %}"
+    state: "{% if syncthing_version == 'latest' %}latest{% else %}present{% endif %}"
