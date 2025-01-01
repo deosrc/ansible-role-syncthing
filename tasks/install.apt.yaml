@@ -1,0 +1,39 @@
+---
+# https://apt.syncthing.net/
+- name: Setup syncthing apt repository
+  become: true
+  ansible.builtin.deb822_repository:
+    name: syncthing
+    types: deb
+    uris: https://apt.syncthing.net/
+    suites: syncthing
+    components: "{{ syncthing_channel }}"
+    signed_by: https://syncthing.net/release-key.gpg
+  notify:
+    - Update apt cache
+
+# TODO: Check if packages can be limited. Seems to wildcard atm.
+- name: Set apt repository priority
+  become: true
+  when: syncthing_apt_priority
+  ansible.builtin.template:
+    src: apt/preferences.d/syncthing.pref.j2
+    dest: /etc/apt/preferences.d/syncthing.pref
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Remove apt repository priority
+  become: true
+  when: not syncthing_apt_priority
+  ansible.builtin.file:
+    path: /etc/apt/preferences.d/syncthing.pref
+    state: absent
+
+- ansible.builtin.meta: flush_handlers
+
+- name: Install syncthing
+  become: true
+  ansible.builtin.apt:
+    name: "syncthing{% if syncthing_version not in ['', 'latest'] %}={{ syncthing_version }}{% endif %}"
+    state: "{% if syncthing_version == 'latest' %}latest{% else %}present{% endif %}"

@@ -1,0 +1,11 @@
+---
+# Determines the install method to use.
+# This must match one of the install.<method>.yaml files within the tasks folder.
+# If not specified, the install method will attempt to be automatically selected.
+syncthing_install_method: ""
+
+# Version to be installed. Available values may vary by install method but typically:
+# - "" (blank) - Will install the latest version if not installed. If installed, will leave as is.
+# - "latest" - Will ensure the latest version is installed. For some install methods, this will result in downloads always being performed.
+# - "2.30.3" - Will install specific version 2.30.3 (or the specified version)
+syncthing_version: ""

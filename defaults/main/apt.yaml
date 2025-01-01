@@ -1,0 +1,10 @@
+---
+## Values in this file are only applicable to the "apt" install method.
+
+# Determines the release channel to install.
+syncthing_channel: stable
+
+# Determines the priority of the syncthing apt repository.
+# Leaving blank will remove the preference file.
+# https://apt.syncthing.net suggests a value of 999.
+syncthing_apt_priority: ""

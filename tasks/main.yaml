@@ -1,0 +1,12 @@
+---
+- name: Determine install method
+  block:
+    - name: Set install method for amd64 architectures using apt
+      when: syncthing_install_method == "" and ansible_pkg_mgr == "apt"
+      ansible.builtin.set_fact:
+        syncthing_install_method: apt
+
+- debug:
+    var: syncthing_install_method
+
+- ansible.builtin.include_tasks: install.{{ syncthing_install_method }}.yaml
