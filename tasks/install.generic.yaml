@@ -1,0 +1,8 @@
+---
+# Syntax for version may change based on package manager, so will simply be appended as a suffix.
+# The value of syncthing_version should be modified to suit (e.g. '=1.28.1')
+- name: Install syncthing
+  become: true
+  ansible.builtin.package:
+    name: "{% if syncthing_version in ['', 'latest'] %}syncthing{% else %}syncthing{{ syncthing_version }}{% endif %}"
+    state: "{% if syncthing_version == 'latest' %}latest{% else %}present{% endif %}"
