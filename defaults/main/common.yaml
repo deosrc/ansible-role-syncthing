@@ -9,3 +9,9 @@ syncthing_install_method: ""
 # - "latest" - Will ensure the latest version is installed. For some install methods, this will result in downloads always being performed.
 # - "2.30.3" - Will install specific version 2.30.3 (or the specified version)
 syncthing_version: ""
+
+# List of syncthing service instances to configure.
+# By default no instances will be configured.
+syncthing_instances: []
+  # - username: "{{ ansible_user }}" # The user which syncthing should run as. This user must already exist and have a home directory.
+
