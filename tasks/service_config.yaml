@@ -75,7 +75,7 @@
       set_fact:
         syncthing_instance_device_ids: "{{ syncthing_webui_request.results | items2dict(key_name='item', value_name='x_syncthing_id') }}"
 
-- name: Set p2p port
+- name: Set p2p listen address
   loop: "{{ syncthing_instances }}"
   loop_control:
     label: "{{ item.username }}"
@@ -85,7 +85,7 @@
     path: ~/.local/state/syncthing/config.xml
     xpath: /configuration/options/listenAddress
     value: |-
-      {% if item.syncthing_config.p2p_port | default(False) %}tcp://:{{ item.syncthing_config.p2p_port }},quic://:{{ item.syncthing_config.p2p_port }}{% else %}default{% endif %}
+      {% if item.syncthing_config.p2p_port | default(False) %}tcp://:{{ item.syncthing_config.p2p_port }},quic://:{{ item.syncthing_config.p2p_port }},dynamic+https://relays.syncthing.net/endpoint{% else %}default{% endif %}
   notify:
     - Restart syncthing services
 
