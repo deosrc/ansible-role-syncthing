@@ -1,0 +1,12 @@
+---
+# This wait is required on first install and enabling of the service to ensure the config file is available to be modified.
+- name: Wait until config file exists
+  loop: "{{ syncthing_instances }}"
+  loop_control:
+    label: "{{ item.username }}"
+  become: true
+  become_user: "{{ item.username }}"
+  ansible.builtin.wait_for:
+    state: present
+    path: ~/.local/state/syncthing/config.xml
+    timeout: 30

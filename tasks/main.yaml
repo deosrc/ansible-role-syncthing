@@ -16,3 +16,4 @@
 
 - ansible.builtin.include_tasks: install.{{ syncthing_install_method }}.yaml
 - ansible.builtin.include_tasks: service.{{ ansible_service_mgr }}.yaml
+- ansible.builtin.include_tasks: service_config.yaml
