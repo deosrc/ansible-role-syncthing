@@ -9,3 +9,19 @@ syncthing_install_method: ""
 # - "latest" - Will ensure the latest version is installed. For some install methods, this will result in downloads always being performed.
 # - "2.30.3" - Will install specific version 2.30.3 (or the specified version)
 syncthing_version: ""
+
+# List of syncthing service instances to configure.
+# By default no instances will be configured.
+syncthing_instances: []
+  # - username: "{{ ansible_user }}" # The user which syncthing should run as. This user must already exist and have a home directory.
+  #   syncthing_config:
+  #     web_ui:
+  #       listen_ip: '127.0.0.1'
+  #       port: 8384
+  #       auth:
+  #         username: "{{ ansible_user }}"
+  #         password_hash: ""
+  #     p2p_port: 22000
+  #     device_name: "" # Defaults to the ansible inventory name for the machine, followed by the username in brackets (e.g. "Laptop (Fred)").
+  #     remove_default_folder: false
+

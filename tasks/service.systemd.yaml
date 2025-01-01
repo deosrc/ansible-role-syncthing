@@ -1,0 +1,9 @@
+---
+- name: Enable syncthing service instances
+  loop: "{{ syncthing_instances }}"
+  loop_control:
+    label: "{{ item.username }}"
+  ansible.builtin.systemd_service:
+    name: syncthing@{{ item.username }}
+    enabled: true
+    state: started
