@@ -104,3 +104,17 @@
     value: "{{ item.syncthing_config.device_name | default(inventory_hostname + ' (' + item.username + ')') }}"
   notify:
     - Restart syncthing services
+
+- name: Remove default folder
+  loop: "{{ syncthing_instances }}"
+  loop_control:
+    label: "{{ item.username }}"
+  become: true
+  become_user: "{{ item.username }}"
+  when: item.syncthing_config.remove_default_folder | default(false)
+  community.general.xml:
+    path: ~/.local/state/syncthing/config.xml
+    xpath: "/configuration/folder[@id='default']"
+    state: absent
+  notify:
+    - Restart syncthing services

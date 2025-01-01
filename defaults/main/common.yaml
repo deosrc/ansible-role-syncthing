@@ -23,4 +23,5 @@ syncthing_instances: []
   #         password_hash: ""
   #     p2p_port: 22000
   #     device_name: "" # Defaults to the ansible inventory name for the machine, followed by the username in brackets (e.g. "Laptop (Fred)").
+  #     remove_default_folder: false
 
