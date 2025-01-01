@@ -10,3 +10,43 @@
     state: present
     path: ~/.local/state/syncthing/config.xml
     timeout: 30
+
+# Configure Web UI first as we need to use the API to retrieve the Device ID. This can't be done if the port conflicts with another instance.
+- name: Set Web UI address
+  loop: "{{ syncthing_instances }}"
+  loop_control:
+    label: "{{ item.username }}"
+  become: true
+  become_user: "{{ item.username }}"
+  community.general.xml:
+    path: ~/.local/state/syncthing/config.xml
+    xpath: /configuration/gui/address
+    value: "{{ item.syncthing_config.web_ui.listen_ip | default('127.0.0.1') }}:{{ item.syncthing_config.web_ui.port | default(8384) }}"
+  notify:
+    - Restart syncthing services
+
+- name: Set Web UI username
+  loop: "{{ syncthing_instances }}"
+  loop_control:
+    label: "{{ item.username }}"
+  become: true
+  become_user: "{{ item.username }}"
+  community.general.xml:
+    path: ~/.local/state/syncthing/config.xml
+    xpath: /configuration/gui/user
+    value: "{{ item.syncthing_config.web_ui.auth.username | default(item.username) | default('') }}"
+  notify:
+    - Restart syncthing services
+
+- name: Set Web UI password
+  loop: "{{ syncthing_instances }}"
+  loop_control:
+    label: "{{ item.username }}"
+  become: true
+  become_user: "{{ item.username }}"
+  community.general.xml:
+    path: ~/.local/state/syncthing/config.xml
+    xpath: /configuration/gui/password
+    value: "{{ item.syncthing_config.web_ui.auth.password_hash | default('') }}"
+  notify:
+    - Restart syncthing services

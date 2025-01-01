@@ -14,4 +14,11 @@ syncthing_version: ""
 # By default no instances will be configured.
 syncthing_instances: []
   # - username: "{{ ansible_user }}" # The user which syncthing should run as. This user must already exist and have a home directory.
+  #   syncthing_config:
+  #     web_ui:
+  #       listen_ip: '127.0.0.1'
+  #       port: 8384
+  #       auth:
+  #         username: "{{ ansible_user }}"
+  #         password_hash: ""
 
