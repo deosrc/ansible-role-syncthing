@@ -1,6 +1,6 @@
 ---
 # https://apt.syncthing.net/
-- name: Setup syncthing apt repository
+- name: Setup syncthing apt repository for {{ syncthing_channel }}
   become: true
   ansible.builtin.deb822_repository:
     name: syncthing
@@ -32,7 +32,7 @@
 
 - ansible.builtin.meta: flush_handlers
 
-- name: Install syncthing
+- name: Install syncthing {{ syncthing_version }}
   become: true
   ansible.builtin.apt:
     name: "syncthing{% if syncthing_version not in ['', 'latest'] %}={{ syncthing_version }}{% endif %}"
