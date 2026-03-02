@@ -1,4 +1,12 @@
 ---
+- name: Install python debian module
+  check_mode: false
+  vars:
+    packages:
+      - lxml
+  import_role:
+    name: _python_packages
+
 # This wait is required on first install and enabling of the service to ensure the config file is available to be modified.
 - name: Wait until config file exists
   loop: "{{ syncthing_instances }}"
