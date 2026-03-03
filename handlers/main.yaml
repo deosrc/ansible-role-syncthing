@@ -6,6 +6,7 @@
 
 - name: Restart systemd services
   listen: Restart syncthing services
+  become: true
   when: ansible_service_mgr == "systemd"
   loop: "{{ syncthing_instances }}"
   loop_control:
