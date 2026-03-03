@@ -1,4 +1,12 @@
 ---
+- name: Install python debian module
+  check_mode: false
+  vars:
+    packages:
+      - debian
+  import_role:
+    name: _python_packages
+
 # https://apt.syncthing.net/
 - name: Setup syncthing apt repository for {{ syncthing_channel }}
   become: true

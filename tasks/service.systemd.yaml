@@ -1,5 +1,6 @@
 ---
 - name: Enable syncthing service instances
+  become: true
   loop: "{{ syncthing_instances }}"
   loop_control:
     label: "{{ item.username }}"
