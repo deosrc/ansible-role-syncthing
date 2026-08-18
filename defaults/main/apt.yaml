@@ -7,4 +7,4 @@ syncthing_channel: stable-v2
 # Determines the priority of the syncthing apt repository.
 # Leaving blank will remove the preference file.
 # https://apt.syncthing.net suggests a value of 999.
-syncthing_apt_priority: ""
+syncthing_apt_priority: null

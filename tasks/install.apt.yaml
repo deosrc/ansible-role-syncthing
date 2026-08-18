@@ -23,7 +23,7 @@
 # TODO: Check if packages can be limited. Seems to wildcard atm.
 - name: Set apt repository priority
   become: true
-  when: syncthing_apt_priority
+  when: syncthing_apt_priority != None
   ansible.builtin.template:
     src: apt/preferences.d/syncthing.pref.j2
     dest: /etc/apt/preferences.d/syncthing.pref
@@ -33,7 +33,7 @@
 
 - name: Remove apt repository priority
   become: true
-  when: not syncthing_apt_priority
+  when: syncthing_apt_priority == None
   ansible.builtin.file:
     path: /etc/apt/preferences.d/syncthing.pref
     state: absent

@@ -2,7 +2,7 @@
 - name: Determine install method
   block:
     - name: Set install method for apt
-      when: syncthing_install_method == "" and ansible_pkg_mgr == "apt"
+      when: syncthing_install_method == "" and ansible_facts['pkg_mgr'] == "apt"
       ansible.builtin.set_fact:
         syncthing_install_method: apt
 
